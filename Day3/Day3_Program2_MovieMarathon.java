@@ -74,9 +74,9 @@ k <= n
 
 import java.util.*;
 class Day3_Program2_MovieMarathon{
-    public static boolean contains_rest(Set<Integer> temp , int[]rest){
-        for(int num : rest){
-            if(temp.contains(num)){
+    public static boolean contains_rest(int num , int[]rest){
+        for(int n: rest){
+            if(num == n){
                 return true;
             }
         }
@@ -112,13 +112,22 @@ class Day3_Program2_MovieMarathon{
         int i = 0;
         
         while(i < n){
-            if(temp.size() == k && !contains_rest(temp , rest)){
+            if(temp.contains(movies[i])){
+                temp.clear();
+
+            }
+            temp.add(movies[i]);
+            if(contains_rest(movies[i] , rest)){
+            temp.clear();
+            }
+            if(temp.size() == k ){
+                System.out.println(temp);
                 ans.add(calc(temp));
                 Iterator<Integer> it = temp.iterator();
                 it.next();
                 it.remove();
             }
-            temp.add(movies[i]);
+
             i++;
             
         }

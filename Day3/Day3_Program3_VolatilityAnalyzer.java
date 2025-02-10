@@ -67,10 +67,41 @@ class Day3_Program3_VolatilityAnalyzer{
         int r = sc.nextInt();
         
         int[]nums = new int[n];
-        
-        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE; 
-        for(int i = 0 ; i < r ; i++){
-            
+
+        for(int i = 0 ; i < n ; i++){
+            nums[i] = sc.nextInt();
         }
+        
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE, ans =Integer.MIN_VALUE ; 
+        for(int i = 0 ; i < r ; i++){
+            max = Math.max(max , nums[i]);
+            min = Math.min(min , nums[i]);
+        }
+
+        ans = Math.max(ans , max-min);
+        max = Integer.MIN_VALUE; min = Integer.MAX_VALUE;
+        for(int i = r ; i < n ; i++ ){
+            int outgoing = nums[i-r];
+            
+
+            if(outgoing == min || outgoing == max){
+                max = Integer.MIN_VALUE; min = Integer.MAX_VALUE;
+                for(int j = i - r + 1; j <= i; j++){
+                    max = Math.max(max , nums[j]);
+                    min = Math.min(min , nums[j]);
+                }
+            }else{
+                max = Math.max(max , nums[i]);
+                min = Math.min(min , nums[i]);
+            }
+            ans = Math.max(ans , max-min);
+        }
+        System.out.println(ans);
+
+
+
     }
 }
+
+
+
