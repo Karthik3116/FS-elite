@@ -111,7 +111,7 @@ public class Treasure {
         Map<Integer,Integer> map = new HashMap<>();
 
         for(int i = 0 ; i < 51 ; i++){
-            if(freq[i] != 0){
+            if(freq[i] > 0){
                 int priority = (int) (freq[nums[i]] * Math.pow(nums[i],f));
                 
             }
@@ -143,7 +143,11 @@ public class Treasure {
         List<Integer> ans = new ArrayList<>();
 
         solve(nums ,freq ,ans ,x ,f );
-
+        
+        for(int i = 0 ; i < k ; i++){
+          freq[nums[i]]++;freq[nums[i-k]]--;
+          solve(nums ,freq ,ans ,x ,f );
+        }
 
 
         sc.close();
