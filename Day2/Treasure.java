@@ -108,50 +108,72 @@ import java.util.*;
 
 public class Treasure {
 
-    public static void solve(int[]nums ,int[]freq ,List<Integer>ans , int x , int f){
+    public static void calc(HashMap<Integer,Integer> freq , List<Integer> ans , int f , int x){
+        // System.out.println(freq);
 
-        Map<Integer,Integer> map = new HashMap<>();
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> {
+            int p1 =  a[1] * (int) Math.pow(a[0] , f);
+            int p2 = b[1] * (int) Math.pow(b[0] , f);
 
-        for(int i = 0 ; i < 51 ; i++){
-            if(freq[i] > 0){
-                int priority = (int) (freq[nums[i]] * Math.pow(nums[i],f));
-                
+            if(p1 == p2){
+                return b[0] - a[0];
             }
+            return Integer.compare(p2, p1);
+        });
+
+        for(Map.Entry<Integer,Integer> entry : freq.entrySet()){
+            pq.add(new int[]{entry.getKey() , entry.getValue()});
         }
 
-        System.out.println(map);
+        int score = 0;
+        for(int i = 0 ; i < x ; i++){
+            int[]node = pq.poll();
+            score += node[0]*node[1];
+        }
+        ans.add(score);
     }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        
         int n = sc.nextInt();
         int k = sc.nextInt();
         int x = sc.nextInt();
         int f = sc.nextInt();
 
-        int[]nums = new int[n];
-
-        int[]freq = new int[51];
+        int[]treasure = new int[n];
 
         for(int i = 0 ; i < n ; i++){
-            nums[i] = sc.nextInt();
+            treasure[i] = sc.nextInt();
+        
         }
+        
+        HashMap<Integer,Integer> freq = new HashMap<>();
 
         for(int i = 0 ; i < k ; i++){
-            freq[nums[i]]++;
+            freq.put(treasure[i] , freq.getOrDefault(treasure[i], 0) + 1);
         }
 
         List<Integer> ans = new ArrayList<>();
 
-        solve(nums ,freq ,ans ,x ,f );
-        
-        for(int i = 0 ; i < k ; i++){
-          freq[nums[i]]++;freq[nums[i-k]]--;
-          solve(nums ,freq ,ans ,x ,f );
+        calc(freq , ans , f , x);
+        // System.out.println(freq);
+
+        for(int i = k ; i < n ; i++){
+            
+            // System.out.println("out -> " + treasure[i-k] + " in -> " + treasure[i]);
+            int out = treasure[i-k] , in = treasure[i];
+            if(freq.get(out) == 1){
+                freq.remove(out);
+            }else{
+                freq.put(out , freq.get(out) - 1);
+            }
+            freq.put(in , freq.getOrDefault(in, 0) + 1);
+            calc(freq, ans, f, x);
         }
 
+        System.out.println(ans);
 
-        sc.close();
+
+
+        
     }
 }
