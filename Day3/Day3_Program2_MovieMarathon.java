@@ -21,6 +21,7 @@ Line-3: m space separated integers, restrictedRatings[].
 
 Output Format:
 -------------
+
 An integer, the maximum total rating of any valid sequence
 
 
@@ -112,21 +113,28 @@ class Day3_Program2_MovieMarathon{
         int i = 0;
         
         while(i < n){
-            if(temp.contains(movies[i])){
-                temp.clear();
+            Iterator<Integer> it1 = temp.iterator();
+            while(temp.contains(movies[i]) && it1.hasNext()){
+                it1.next();
+                it1.remove();
+            }
 
-            }
             temp.add(movies[i]);
+
+            
             if(contains_rest(movies[i] , rest)){
-            temp.clear();
+                temp.clear();
             }
+            System.out.println(temp);
             if(temp.size() == k ){
-                System.out.println(temp);
+                // System.out.println(temp);
                 ans.add(calc(temp));
                 Iterator<Integer> it = temp.iterator();
                 it.next();
                 it.remove();
             }
+            
+            
 
             i++;
             
