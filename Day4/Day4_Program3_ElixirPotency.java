@@ -1,4 +1,4 @@
-package Day4;
+
 
 /*
  * `You are a renowned Alchemist exploring a mystical forest teeming with magical plants. 
@@ -55,6 +55,39 @@ Ordered elixir potencies: 0, 2, 4, 5, 7, 7
 The 3rd smallest elixir potency is 4.
  */
 
+import java.util.*;
 public class Day4_Program3_ElixirPotency {
-    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int m = sc.nextInt();
+        
+        int[]plants = new int[n];
+
+        for(int i = 0 ; i < n ; i++){
+            plants[i] = sc.nextInt();
+        }
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int i = 0 ; i < n ; i++){
+            int max = 0;
+            for(int j = i ; j < n ; j++){
+                max += plants[j];
+                if(j-i+1 >= m){
+                    // System.out.println(max);
+                    pq.add(max);
+                }
+
+            }
+        }
+        
+        while(k > 1){
+            k--;
+            pq.poll();
+
+        }
+
+        System.out.println(pq.peek());
+    }
 }
