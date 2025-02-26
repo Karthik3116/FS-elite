@@ -1,0 +1,3 @@
+TO RUN
+PS E:\Desktop\FS\Day2> javac -d . BuildTree.java
+PS E:\Desktop\FS\Day2> java Day2.BuildTree
